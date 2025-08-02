@@ -8,6 +8,7 @@ use App\Models\Comment;
 use App\Models\Company;
 use App\Models\Photo;
 use App\Models\Post;
+use App\Models\Todo;
 use App\Models\User;
 use Exception;
 use Illuminate\Console\Command;
@@ -125,10 +126,25 @@ class FetchJsonPlaceholderData extends Command
             foreach ($photos as $photoData) {
 
                 Photo::create([
+
                     'album_id'      => $photoData['albumId'],
                     'title'         => $photoData['title'],
                     'url'           => $photoData['url'],
                     'thumbnail_url' => $photoData['thumbnailUrl'],
+
+                ]);
+            }
+
+            // 4. Todos
+            $todos = Http::get('https://jsonplaceholder.typicode.com/todos')->json();
+
+            foreach ($todos as $todoData) {
+
+                Todo::create([
+
+                    'user_id'       =>  $todoData['userId'],
+                    'title'         =>  $todoData['title'],
+                    'completed'     =>  $todoData['completed'],
 
                 ]);
             }
