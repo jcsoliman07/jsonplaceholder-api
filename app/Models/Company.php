@@ -11,7 +11,10 @@ class Company extends Model
     //
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = 
+    [
+        'user_id', 'name', 'catch_phrase', 'bs'
+    ];
 
     public function user(): BelongsTo
     {

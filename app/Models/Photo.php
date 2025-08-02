@@ -11,7 +11,10 @@ class Photo extends Model
     //
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = 
+    [
+        'album_id', 'title', 'url', 'thumbnail_url'
+    ];
 
     public function album(): BelongsTo
     {

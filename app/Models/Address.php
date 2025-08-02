@@ -11,7 +11,10 @@ class Address extends Model
     //
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = 
+    [
+        'user_id', 'street', 'suite', 'city', 'zipcode', 'lat', 'lng',
+    ];
 
     public function user(): BelongsTo
     {
