@@ -3,7 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Models\Address;
+use App\Models\Comment;
 use App\Models\Company;
+use App\Models\Post;
 use App\Models\User;
 use Exception;
 use Illuminate\Console\Command;
@@ -71,6 +73,35 @@ class FetchJsonPlaceholderData extends Command
                     'catch_phrase' => $userData['company']['catchPhrase'],
                     'bs' => $userData['company']['bs'],
                 ]);
+            }
+
+            //Posts and Comments Data
+            $posts = Http::get('https://jsonplaceholder.typicode.com/posts')->json();
+
+            foreach ($posts as $postData){
+
+                $post = Post::create([
+
+                    'user_id'   =>  $postData['userId'],
+                    'title'     =>  $postData['title'],
+                    'body'      =>  $postData['body'],
+                ]);
+
+            }
+
+            $comments = Http::get('https://jsonplaceholder.typicode.com/comments')->json();
+
+            foreach ($comments as $commentData) {
+
+                Comment::create([
+
+                    'post_id'   =>  $commentData['postId'],
+                    'name'      =>  $commentData['name'],
+                    'email'     =>  $commentData['email'],
+                    'body'      =>  $commentData['body'],
+
+                ]);
+
             }
 
         }
