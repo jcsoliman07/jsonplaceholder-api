@@ -25,9 +25,9 @@ class AppServiceProvider extends ServiceProvider
         //
         Auth::viaRequest('custom-auth', function ($request) 
         {
-            return User::where('username', $request->getUser())->first();
-            
-            if ($user && Hash::check($request->getPassword(), $user->password))
+            $user = User::where('username', $request->getUser())->first();
+
+            if ($user && Hash::check($request->getPassword(), $user->password)) 
             {
                 return $user;
             }
