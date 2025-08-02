@@ -11,7 +11,7 @@ class CommentController extends Controller
 {
     //
 
-    public function inde(): JsonResponse
+    public function index(): JsonResponse
     {
         $comments = Comment::all();
 
