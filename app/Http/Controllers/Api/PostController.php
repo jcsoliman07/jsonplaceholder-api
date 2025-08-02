@@ -4,17 +4,20 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    //
+    use ApiResponse;
+
     public function index(): JsonResponse
     {
         //Fetch All Post
         $posts = Post::with('comments')->get();
-        return response()->json($posts);
+
+        return $this->successResponse($posts);
     }
 
     public function show(int $id): JsonResponse
@@ -23,17 +26,9 @@ class PostController extends Controller
         $post = Post::with('comments')->find($id);
 
         if (!$post) {
-            return response()->json(
-                [
-                    'status'    => 'error',
-                    'message'   => 'Post not found'
-                ], 404);
+            return $this->errorResponse('Post not found', 404);
         }
 
-        return response()->json(
-            [
-                'status'    =>  'success',
-                'data'      => $post
-            ]);
+        return $this->successResponse($post);
     }
 }

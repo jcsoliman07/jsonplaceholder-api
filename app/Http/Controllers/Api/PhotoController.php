@@ -4,21 +4,20 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Photo;
+use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PhotoController extends Controller
 {
+    use ApiResponse;
+
     public function index(): JsonResponse
     {
         //Fetch All Photo
         $photos = Photo::with('album')->get();
 
-        return response()->json(
-            [
-                'status'    =>  'success',
-                'data'      =>   $photos
-            ]);
+        return $this->successResponse($photos);
     }
 
     public function show($id): JsonResponse
@@ -28,28 +27,16 @@ class PhotoController extends Controller
 
         if (!$photo) 
         {
-            return response()->json(
-                [
-                    'status'    =>  'error',
-                    'message'   =>  'Photo not found'
-                ], 404);
+            return $this->errorResponse('Photo not found', 404);
         }
 
-        return response()->json(
-            [
-                'status'    =>  'success',
-                'data'      =>  $photo
-            ]);
+        return $this->successResponse($photo);
     }
 
     public function indexByAlbum($albumId): JsonResponse
     {
         $photos = Photo::where('album_id', $albumId)->get();
 
-        return response()->json(
-            [
-                'status'    =>  'success',
-                'data'      =>  $photos
-            ]);
+        return $this->successResponse($photos);
     }
 }

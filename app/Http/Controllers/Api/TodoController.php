@@ -4,21 +4,20 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Todo;
+use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TodoController extends Controller
 {
-    //
+    use ApiResponse;
+
+
     public function index(): JsonResponse
     {
         $todos = Todo::all();
 
-        return response()->json(
-            [
-                'status'    =>  'success',
-                'data'      =>  $todos
-            ]);
+        return $this->successResponse($todos);
     }
 
     public function show(int $id): JsonResponse
@@ -27,17 +26,9 @@ class TodoController extends Controller
 
         if (!$todo) 
         {
-            return response()->json(
-                [
-                    'status'    =>  'error',
-                    'message'   =>  'Todo not found'
-                ], 404);
+            return $this->errorResponse('Todo not found', 404);
         }
 
-        return response()->json(
-            [
-                'status'    =>  'success',
-                'data'      =>  $todo
-            ]);
+        return $this->successResponse($todo);
     }
 }

@@ -4,22 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    //
+    use ApiResponse;
 
     public function index(): JsonResponse
     {
         $comments = Comment::all();
 
-        return response()->json(
-            [  
-                'status'    => 'success',
-                'data'      => $comments,
-            ]);
+        return $this->successResponse($comments);
     }
 
     public function show (int $id): JsonResponse
@@ -28,28 +25,16 @@ class CommentController extends Controller
 
         if  (!$comment)
         {
-            return response()->json(
-            [  
-                'status'    => 'error',
-                'data'      => $comment,
-            ]);
+            return $this->errorResponse('Comment not found', 404);
         }
 
-        return response()->json(
-            [
-                'status'    =>  'success',
-                'data'      =>  $comment,
-            ]);
+        return $this->successResponse($comment);
     }
 
     public function indexByPost(int $postId): JsonResponse
     {
         $comments = Comment::where('post_id', $postId)->get();
 
-        return response()->json(
-            [
-                'status'    =>  'success',
-                'data'      =>  $comments,
-            ]);
+        return $this->successResponse($comments);
     }
 }
