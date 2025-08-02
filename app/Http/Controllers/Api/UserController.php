@@ -19,16 +19,24 @@ class UserController extends Controller
         return response()->json($users);
     }
 
-    public function show($id): JsonResponse
+    public function show(int $id): JsonResponse
     {
         //Fetch specific user by Id
         $user = User::with(['address', 'company'])->find($id);
 
         if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
+            return response()->json(
+                [
+                    'status'    => 'error',
+                    'message'   => 'User not found'
+                ], 404);
         }
 
-        return response()->json($user);
+        return response()->json(
+            [
+                'status'    => 'success',
+                'data'      => $user,
+            ]);
     }
 
 }
