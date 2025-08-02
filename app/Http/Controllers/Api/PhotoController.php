@@ -17,7 +17,7 @@ class PhotoController extends Controller
         return response()->json(
             [
                 'status'    =>  'success',
-                'data'      >   $photos
+                'data'      =>   $photos
             ]);
     }
 
