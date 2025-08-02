@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,6 +28,13 @@ class AppServiceProvider extends ServiceProvider
             return User::where('username', $request
                         ->getUser())
                         ->first();
+            
+            if ($user && Hash::check($request->getPassword(), $user->password))
+            {
+                return $user;
+            }
+
+            return null;
         });
     }
 }
