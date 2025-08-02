@@ -105,9 +105,116 @@ This command will fetch data from:
 php artisan serve
 ```
 
+🔐 Authentication Guide
+Basic Authentication
+This API uses HTTP Basic Authentication via a custom guard. To test protected routes:
+
+Create a user manually:
+
+```bash
+php artisan tinker
+
+>>> \App\Models\User::create([
+    'name' => 'John Doe',
+    'username' => 'johndoe',
+    'email' => 'john@example.com',
+    'password' => bcrypt('secret'),
+]);
+
+```
 
 
+📡 API Endpoints
+
+| Method | Endpoint                       | Description                |
+| ------ | ------------------------------ | -------------------------- |
+| GET    | `/api/users`                   | List all users             |
+| GET    | `/api/posts`                   | List all posts             |
+| GET    | `/api/comments`                | List all comments          |
+| GET    | `/api/albums`                  | List all albums            |
+| GET    | `/api/photos`                  | List all photos            |
+| GET    | `/api/todos`                   | List all todos             |
+| GET    | `/api/posts/{postId}/comments` | Comments for specific post |
 
 
+🔐 Protected Routes (Requires Basic Auth)
+Use HTTP Basic Auth with your user's email and password.
+
+| Method | Endpoint          | Description   |
+| ------ | ----------------- | ------------- |
+| POST   | `/api/posts`      | Create a post |
+| PUT    | `/api/posts/{id}` | Update a post |
+| DELETE | `/api/posts/{id}` | Delete a post |
 
 
+## 📦 Technologies Used
+
+- **Laravel 11**  
+- **PHP 8.3**  
+- **MySQL**  
+- **Custom Basic Authentication**  
+- **Artisan Console Commands**  
+- **RESTful API Design**  
+
+---
+
+## 📁 Folder Structure
+
+- `app/Console/Commands/` – Custom command to fetch data  
+- `app/Models/` – Eloquent models for each entity  
+- `routes/api.php` – API route definitions  
+- `app/Http/Controllers/` – Resource controllers  
+
+---
+
+## ✅ To Do
+
+- Fetch & store remote data  
+- Expose RESTful endpoints  
+- Implement HTTP Basic Authentication  
+- Protect specific routes  
+- Provide documentation  
+
+## 🐳 Docker Setup (One-Time Copy-Paste)
+
+1. **Start Docker containers**
+
+```bash
+./vendor/bin/sail up -d
+```
+
+2. Run database migrations
+
+```bash
+Copy
+Edit
+./vendor/bin/sail artisan migrate
+```
+3. (Optional) Seed the database
+
+```bash
+Copy
+Edit
+./vendor/bin/sail artisan db:seed
+```
+
+4. Stop Docker containers
+
+```bash
+Copy
+Edit
+./vendor/bin/sail down
+```
+
+⚠️ Notes:
+Make sure Docker Desktop is running before executing these commands.
+
+If port 3306 is already in use on your host machine, update the MySQL port mapping in docker-compose.yml and your .env file accordingly.
+
+Use the following command to check the status of your running containers:
+
+```bash
+Copy
+Edit
+./vendor/bin/sail ps
+```
