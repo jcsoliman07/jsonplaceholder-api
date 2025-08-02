@@ -3,8 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Models\Address;
+use App\Models\Album;
 use App\Models\Comment;
 use App\Models\Company;
+use App\Models\Photo;
 use App\Models\Post;
 use App\Models\User;
 use Exception;
@@ -102,6 +104,33 @@ class FetchJsonPlaceholderData extends Command
 
                 ]);
 
+            }
+
+            //Albums and Photos Data
+
+            $albums = Http::get('https://jsonplaceholder.typicode.com/albums')->json();
+
+            foreach ($albums as $albumData) {
+
+                Album::create([
+
+                    'user_id'   =>  $albumData['userId'],
+                    'title'     =>  $albumData['title'],
+
+                ]);
+            }
+
+             $photos = Http::get('https://jsonplaceholder.typicode.com/photos')->json();
+
+            foreach ($photos as $photoData) {
+
+                Photo::create([
+                    'album_id'      => $photoData['albumId'],
+                    'title'         => $photoData['title'],
+                    'url'           => $photoData['url'],
+                    'thumbnail_url' => $photoData['thumbnailUrl'],
+
+                ]);
             }
 
         }
