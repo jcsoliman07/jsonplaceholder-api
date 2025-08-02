@@ -11,7 +11,10 @@ class Comment extends Model
     //
     use HasFactory;
 
-    protected $guarder =[];
+    protected $fillable = 
+    [
+        'post_id', 'name', 'email', 'body',
+    ];
 
     public function post(): BelongsTo
     {
