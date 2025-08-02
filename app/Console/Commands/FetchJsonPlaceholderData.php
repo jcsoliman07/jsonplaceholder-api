@@ -135,7 +135,7 @@ class FetchJsonPlaceholderData extends Command
                 ]);
             }
 
-            // 4. Todos
+            // Todo  Data
             $todos = Http::get('https://jsonplaceholder.typicode.com/todos')->json();
 
             foreach ($todos as $todoData) {
